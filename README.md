@@ -1,0 +1,2 @@
+# micrometerdemo2
+对Micrometer的源码进行了深入的探查，具体是了解Micrometer的的基本Meter原语集中的数据类型，并对且中各个类型如何实现计数进行了源码分析。
