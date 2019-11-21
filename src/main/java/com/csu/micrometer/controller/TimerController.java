@@ -6,6 +6,8 @@ import io.micrometer.core.instrument.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -18,11 +20,14 @@ public class TimerController {
     @RequestMapping("/timer")
     public void time(){
         Timer timer = Metrics.timer("sleep.timer","type","timer");
+        Timer timer2 = Metrics.timer("timer.test","type","test");
+        timer2.record(900000000,TimeUnit.NANOSECONDS);
+        timer2.record(Duration.ofMillis(1000));
 
         //使用timer采集一个方法的数据信息；
         timer.record(()->{
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(1);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
@@ -33,6 +38,9 @@ public class TimerController {
         //改写里面的接口，然后暴露出来，另一个是曲线救国，将这个值设为一个Gauge值；
         System.out.println(timer.count());
         System.out.println(timer.measure());
+
+        System.out.println(timer.baseTimeUnit());
+
         System.out.println(timer.totalTime(TimeUnit.SECONDS));
         System.out.println(timer.mean(TimeUnit.SECONDS));
         System.out.println(timer.max(TimeUnit.SECONDS));
