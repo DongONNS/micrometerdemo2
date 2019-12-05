@@ -16,6 +16,9 @@ import java.util.Arrays;
 
 @SpringBootApplication
 public class MicrometerApplication {
+    public static long start_time_of_application;
+    public long last_reset_time;
+    public static long expiry = 3000;
 
     public static void main(String[] args) {
         SpringApplication.run(MicrometerApplication.class, args);
